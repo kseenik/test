@@ -1,0 +1,6 @@
+pytest
+scikit-learn
+pandas
+imblearn
+nltk
+seaborn
