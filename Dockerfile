@@ -2,8 +2,9 @@ FROM python:3.9-slim
 
 WORKDIR /app
 
-COPY . .
+COPY app/requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["python", "test_heart_attack.py"]
+COPY app/ .
 
-USER nonrootuser
+CMD ["pytest"]
