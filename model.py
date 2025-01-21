@@ -21,6 +21,7 @@ nltk.download("stopwords")
 original_data = pd.read_csv("balanced_spam.csv")
 attacked_data = pd.read_csv("attacked.csv")
 
+
 # Валидация данных
 def validate_input_data(data):
     if data is None or len(data) == 0:
@@ -69,4 +70,3 @@ model.fit(X_train, y_train)
 # Предсказания модели
 y_pred = model.predict(X_test)
 y_attacked_pred = model.predict(X_attacked)
-
