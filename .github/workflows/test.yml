@@ -38,7 +38,7 @@ jobs:
           server_port: ${{ secrets.SMTP_PORT }}
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
-          to: 'your-email@example.com'
+          to: 'pelmeshkak@yandex.ru'
           subject: 'GitHub Actions Test Failure Notification'
           body: |
             The tests have failed! Please check the GitHub Actions logs for more details.
