@@ -2,7 +2,7 @@ import unittest
 from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
 import seaborn as sns
 import matplotlib.pyplot as plt
-from model import preprocess_text, model, y_test, y_pred, y_attacked, y_attacked_pred
+from model import preprocess_text, y_test, y_pred, y_attacked, y_attacked_pred
 
 
 class TestSpamModel(unittest.TestCase):
@@ -11,13 +11,12 @@ class TestSpamModel(unittest.TestCase):
         raw_text = "Check out the website https://example.com! This is the first text with number 123."
         expected_result = "check websit first text number"
         self.assertEqual(preprocess_text(raw_text), expected_result)
-
     
+
     def test_model_prediction(self):
         accuracy = accuracy_score(y_test, y_pred)
         self.assertGreater(accuracy, 0.8)  # Ожидаемая точность должна быть выше 80%
-
-    
+ 
     def test_classification_report(self):
         report = classification_report(y_test, y_pred, output_dict=True)
         accuracy = report['accuracy']
