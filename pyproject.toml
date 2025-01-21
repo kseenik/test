@@ -1,2 +1,10 @@
 [tool.black]
 line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 88
+known_third_party = "numpy,pandas,sklearn"  # Список сторонних библиотек для сортировки импорта
+default_section = "THIRDPARTY"
