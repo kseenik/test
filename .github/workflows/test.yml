@@ -26,7 +26,7 @@ jobs:
           pip install pytest pytest-cov pip-audit
 
       - name: Run tests
-        run: pytest app/test_model.py --cov=app/
+        run: pytest app/test.py --cov=app/
 
       - name: Dependency Audit
         run: pip-audit
