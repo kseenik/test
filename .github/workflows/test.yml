@@ -26,13 +26,13 @@ jobs:
           pip install pytest pytest-cov pip-audit
 
       - name: Run tests
-        run: pytest app/test.py --cov=app/
+        run: pytest app/test_model.py --cov=app/
 
       - name: Dependency Audit
         run: pip-audit
 
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout code
@@ -54,7 +54,7 @@ jobs:
         run: black --check app/
 
   docker:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout code
@@ -64,8 +64,7 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Build Docker image
-        run: |
-          docker build -t spam-detection .
+        run: docker build -t spam-detection .
 
       - name: Install Trivy
         run: |
