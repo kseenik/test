@@ -35,6 +35,7 @@ def validate_input_data(data):
         raise ValueError("Some input texts are too short.")
     return data
 
+
 # Функция предобработки текста
 def preprocess_text(text):
     stop_words = set(stopwords.words("english"))
@@ -45,6 +46,7 @@ def preprocess_text(text):
     words = text.split()
     words = [stemmer.stem(word) for word in words if word not in stop_words]
     return " ".join(words)
+
 
 # Применяем предобработку данных
 original_data["text"] = original_data["text"].apply(preprocess_text)
