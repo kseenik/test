@@ -11,11 +11,11 @@ class TestSpamModel(unittest.TestCase):
         raw_text = "Check out the website https://example.com! This is the first text with number 123."
         expected_result = "check websit first text number"
         self.assertEqual(preprocess_text(raw_text), expected_result)
-    
+
     def test_model_prediction(self):
         accuracy = accuracy_score(y_test, y_pred)
         self.assertGreater(accuracy, 0.8)  # Ожидаемая точность должна быть выше 80%
- 
+
     def test_classification_report(self):
         report = classification_report(y_test, y_pred, output_dict=True)
         accuracy = report['accuracy']
