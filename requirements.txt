@@ -1,0 +1,11 @@
+pandas
+nltk
+scikit-learn
+imblearn
+pytest
+pytest-cov
+pip-audit
+flake8
+black
+matplotlib
+seaborn
