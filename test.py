@@ -21,23 +21,19 @@ class TestSpamModel(unittest.TestCase):
         expected_result = "check websit first text number"
         self.assertEqual(preprocess_text(raw_text), expected_result)
 
-    
     def test_model_prediction(self):
         accuracy = accuracy_score(y_test, y_pred)
         self.assertGreater(accuracy, 0.8)  # Ожидаемая точность должна быть выше 80%
 
-    
     def test_classification_report(self):
         report = classification_report(y_test, y_pred, output_dict=True)
         accuracy = report['accuracy']
         self.assertGreater(accuracy, 0.8)  # Проверка точности
 
-    
     def test_confusion_matrix(self):
         conf_matrix = confusion_matrix(y_attacked, y_attacked_pred)
         self.assertEqual(conf_matrix.shape, (2, 2))  # Матрица ошибок должна быть 2x2
 
-    
     def test_plot_confusion_matrix(self):
         conf_matrix = confusion_matrix(y_attacked, y_attacked_pred)
         plt.figure(figsize=(8, 6))
@@ -51,3 +47,4 @@ class TestSpamModel(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
