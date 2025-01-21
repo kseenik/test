@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY . .
 
-CMD ["python", "test_heart_attack.py"]
+CMD ["python", "doc.py"]
 
 USER nonrootuser
