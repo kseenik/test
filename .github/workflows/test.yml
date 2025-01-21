@@ -1,12 +1,10 @@
-name: Run Tests with pytest
+name: CI/CD Pipeline
 
 on:
   push:
     branches:
       - main
   pull_request:
-    branches:
-      - main
 
 jobs:
   test:
@@ -14,32 +12,68 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.8'
+          python-version: "3.9"
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r app/requirements.txt
+          pip install pytest pytest-cov pip-audit
 
       - name: Run tests
-        run: |
-          pytest --maxfail=1 --disable-warnings -q
+        run: pytest app/test_model.py --cov=app/
 
-      - name: Send email notification on failure
-        if: failure()
-        uses: dawidd6/action-send-mail@v3
+      - name: Dependency Audit
+        run: pip-audit
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          server_address: ${{ secrets.SMTP_SERVER }}
-          server_port: ${{ secrets.SMTP_PORT }}
-          username: ${{ secrets.SMTP_USERNAME }}
-          password: ${{ secrets.SMTP_PASSWORD }}
-          to: 'pelmeshkak@yandex.ru'
-          subject: 'GitHub Actions Test Failure Notification'
-          body: |
-            The tests have failed! Please check the GitHub Actions logs for more details.
-          from: ${{ secrets.SMTP_USERNAME }}
+          python-version: "3.9"
+
+      - name: Install linters
+        run: |
+          python -m pip install flake8 black
+
+      - name: Run flake8
+        run: flake8 app/ --count --select=E9,F63,F7,F82 --show-source --statistics
+
+      - name: Run black
+        run: black --check app/
+
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image
+        run: |
+          docker build -t spam-detection .
+
+      - name: Install Trivy
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh
+          sudo mv trivy /usr/local/bin/
+
+      - name: Check Dockerfile vulnerabilities with Trivy
+        run: trivy fs --exit-code 1 --severity HIGH,CRITICAL .
+
+      - name: Check Docker image vulnerabilities with Trivy
+        run: trivy image --exit-code 1 --severity HIGH,CRITICAL spam-detection
