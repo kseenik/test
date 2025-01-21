@@ -7,7 +7,6 @@ Original file is located at
     https://colab.research.google.com/drive/12mYp2BVp4c-h1YiqoJbF10TUi1m1N5ot
 """
 
-import pytest
 import pandas as pd
 import re
 import nltk
@@ -18,8 +17,6 @@ from sklearn.metrics import classification_report, accuracy_score
 from imblearn.over_sampling import SMOTE
 from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer
-import seaborn as sns
-import matplotlib.pyplot as plt
 
 nltk.download("stopwords")
 original_data = pd.read_csv("balanced_spam.csv")
